@@ -1,0 +1,20 @@
+{
+  "name": "@shared-wallet/contracts",
+  "version": "1.0.0",
+  "main": "artifacts",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write \"**/*.(js|mjs|cjs|jsx|ts|json|json5|jsonc|yml|yaml|md|markdown|graphql|gql|ng|sql|prisma|sol)\""
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
+    "chai": "^4.5.0",
+    "ethereum-waffle": "^3.4.4",
+    "ethers": "^5.8.0",
+    "hardhat": "2.8",
+    "prettier": "^3.5.3",
+    "prettier-plugin-solidity": "^2.0.0",
+    "solidity-parse": "^0.0.2"
+  }
+}
