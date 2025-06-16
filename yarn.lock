@@ -1645,6 +1645,7 @@ __metadata:
   dependencies:
     "@nomiclabs/hardhat-ethers": "npm:^2.2.3"
     "@nomiclabs/hardhat-waffle": "npm:^2.0.6"
+    "@trivago/prettier-plugin-sort-imports": "npm:^5.2.2"
     chai: "npm:^4.5.0"
     ethereum-waffle: "npm:^3.4.4"
     ethers: "npm:^5.8.0"

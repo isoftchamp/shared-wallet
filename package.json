@@ -19,8 +19,9 @@
   "scripts": {
     "frontend": "yarn workspace @shared-wallet/frontend dev",
     "frontend:build": "yarn workspace @shared-wallet/frontend build",
-    "contract:compile": "yarn workspace @shared-wallet/contracts hardhat compile",
-    "contract:deploy": "yarn workspace @shared-wallet/contracts deploy",
+    "contracts:compile": "yarn workspace @shared-wallet/contracts hardhat compile",
+    "contracts:test": "yarn workspace @shared-wallet/contracts hardhat test",
+    "contracts:deploy": "yarn workspace @shared-wallet/contracts deploy",
     "format": "yarn workspace @shared-wallet/frontend format && yarn workspace @shared-wallet/contracts format"
   }
 }
