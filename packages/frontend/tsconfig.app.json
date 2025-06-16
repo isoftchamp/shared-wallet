@@ -21,10 +21,13 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* Path mapping */
+    "baseUrl": ".",
+    "paths": {
+      "@contracts/*": ["../contracts/*"]
+    }
   },
-  "include": ["src"],
-  "paths": {
-    "@contracts/*": ["../contracts/*"]
-  }
+  "include": ["src"]
 }
