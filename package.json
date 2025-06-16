@@ -17,11 +17,17 @@
     "**/@*/*"
   ],
   "scripts": {
+    "prepare": "husky",
     "frontend": "yarn workspace @shared-wallet/frontend dev",
     "frontend:build": "yarn workspace @shared-wallet/frontend build",
     "contracts:compile": "yarn workspace @shared-wallet/contracts hardhat compile",
-    "contracts:test": "yarn workspace @shared-wallet/contracts hardhat test",
+    "contracts:test": "yarn workspace @shared-wallet/contracts test",
     "contracts:deploy": "yarn workspace @shared-wallet/contracts deploy",
-    "format": "yarn workspace @shared-wallet/frontend format && yarn workspace @shared-wallet/contracts format"
+    "format": "yarn workspace @shared-wallet/frontend format && yarn workspace @shared-wallet/contracts format",
+    "lint": "yarn workspace @shared-wallet/frontend lint && yarn workspace @shared-wallet/contracts lint"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2"
   }
 }

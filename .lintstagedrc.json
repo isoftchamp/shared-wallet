@@ -1,0 +1,13 @@
+{
+  "packages/frontend/**/*.{js,jsx,ts,tsx}": [
+    "yarn workspace @shared-wallet/frontend lint --fix",
+    "yarn workspace @shared-wallet/frontend format"
+  ],
+  "packages/contracts/**/*.{js,ts}": [
+    "yarn workspace @shared-wallet/contracts lint --fix",
+    "yarn workspace @shared-wallet/contracts format"
+  ],
+  "packages/contracts/**/*.sol": [
+    "yarn workspace @shared-wallet/contracts format"
+  ]
+}

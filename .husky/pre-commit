@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged for code formatting and linting
+yarn lint-staged
+
+# Run contract tests to ensure all contracts have tests and they pass
+yarn contracts:test
