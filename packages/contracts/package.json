@@ -4,9 +4,11 @@
   "main": "artifacts",
   "license": "MIT",
   "scripts": {
+    "compile": "hardhat compile && yarn copy-artifacts",
     "test": "yarn hardhat run scripts/check-tests.js && hardhat test",
     "lint": "eslint . --ext .js,.ts --fix",
-    "deploy": "yarn hardhat run scripts/deploy.js",
+    "deploy": "yarn hardhat run scripts/deploy.js && yarn copy-artifacts",
+    "copy-artifacts": "node scripts/copy-artifacts.js",
     "format": "prettier --write \"**/*.(js|mjs|cjs|jsx|ts|json|json5|jsonc|yml|yaml|md|markdown|graphql|gql|ng|sql|prisma|sol)\""
   },
   "devDependencies": {

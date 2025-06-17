@@ -1,8 +1,8 @@
-import SharedWalletArtifact from '@contracts/artifacts/contracts/SharedWallet.sol/SharedWallet.json';
+import SharedWalletArtifact from './abi/SharedWallet.json';
 
 export const SHARED_WALLET_ABI = SharedWalletArtifact.abi;
 
-export const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS_SEPOLIA;
+export const CONTRACT_ADDRESS_SEPOLIA = import.meta.env.VITE_CONTRACT_ADDRESS_SEPOLIA;
 
 // Supported networks
 export const SUPPORTED_NETWORKS = {

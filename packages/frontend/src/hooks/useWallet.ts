@@ -2,7 +2,7 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import { BrowserProvider, Contract } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
 
-import { CONTRACT_ADDRESS, SHARED_WALLET_ABI } from '@/contracts';
+import { CONTRACT_ADDRESS_SEPOLIA, SHARED_WALLET_ABI } from '@/contracts';
 import type { WalletState } from '@/interfaces';
 
 export const useWallet = () => {
@@ -28,7 +28,7 @@ export const useWallet = () => {
         setProvider(browserProvider);
 
         const signer = await browserProvider.getSigner();
-        const contractInstance = new Contract(CONTRACT_ADDRESS, SHARED_WALLET_ABI, signer);
+        const contractInstance = new Contract(CONTRACT_ADDRESS_SEPOLIA, SHARED_WALLET_ABI, signer);
         setContract(contractInstance);
 
         return { browserProvider, contractInstance };
