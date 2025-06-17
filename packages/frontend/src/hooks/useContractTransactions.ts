@@ -1,7 +1,8 @@
 import { parseEther } from 'ethers';
 import { useCallback, useState } from 'react';
 
-import type { TransactionState } from '../types/contract';
+import type { TransactionState } from '@/interfaces';
+
 import { useWallet } from './useWallet';
 
 export const useContractTransactions = () => {

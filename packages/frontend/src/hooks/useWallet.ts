@@ -2,8 +2,8 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import { BrowserProvider, Contract } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
 
-import { CONTRACT_ADDRESS, SHARED_WALLET_ABI } from '../contracts/config';
-import type { WalletState } from '../types/contract';
+import { CONTRACT_ADDRESS, SHARED_WALLET_ABI } from '@/contracts';
+import type { WalletState } from '@/interfaces';
 
 export const useWallet = () => {
   const [walletState, setWalletState] = useState<WalletState>({
