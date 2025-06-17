@@ -1,0 +1,22 @@
+{
+  "name": "Shared Wallet - Premium DeFi Wallet Management",
+  "short_name": "Shared Wallet",
+  "description": "Experience the future of decentralized finance with our premium shared wallet solution, featuring advanced allowance controls and seamless Ethereum integration.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "productivity", "utilities"],
+  "lang": "en",
+  "scope": "/",
+  "prefer_related_applications": false
+}
