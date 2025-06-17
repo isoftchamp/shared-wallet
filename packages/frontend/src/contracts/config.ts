@@ -3,7 +3,7 @@ import SharedWalletArtifact from '@contracts/artifacts/contracts/SharedWallet.so
 export const SHARED_WALLET_ABI = SharedWalletArtifact.abi;
 
 // You'll need to update this with your deployed contract address
-export const CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000';
+export const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS_SEPOLIA;
 
 // Supported networks
 export const SUPPORTED_NETWORKS = {

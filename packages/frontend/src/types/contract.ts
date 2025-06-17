@@ -15,6 +15,13 @@ export interface WalletState {
   contractBalance: bigint;
   userAllowance: bigint;
   isLoading: boolean;
+  error: string | null;
+}
+
+export interface WalletError {
+  code: number;
+  message: string;
+  type: 'connection' | 'transaction' | 'network';
 }
 
 export interface TransactionState {

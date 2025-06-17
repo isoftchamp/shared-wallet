@@ -13,6 +13,7 @@ export const useWallet = () => {
     contractBalance: 0n,
     userAllowance: 0n,
     isLoading: false,
+    error: null,
   });
 
   const [provider, setProvider] = useState<BrowserProvider | null>(null);
@@ -39,9 +40,26 @@ export const useWallet = () => {
     }
   }, []);
 
+  // Helper function to get user-friendly error messages
+  const getErrorMessage = (error: any): string => {
+    if (error.code === 4001) {
+      return 'Connection cancelled. Please approve the connection request in MetaMask to continue.';
+    }
+    if (error.code === -32002) {
+      return 'Connection request pending. Please check MetaMask for a pending connection request.';
+    }
+    if (error.message?.includes('MetaMask not found')) {
+      return 'MetaMask not detected. Please install MetaMask browser extension.';
+    }
+    if (error.message?.includes('network')) {
+      return 'Network error. Please check your internet connection and try again.';
+    }
+    return error.message || 'Failed to connect wallet. Please try again.';
+  };
+
   // Connect wallet
   const connectWallet = useCallback(async () => {
-    setWalletState((prev) => ({ ...prev, isLoading: true }));
+    setWalletState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
       const initialized = await initializeProvider();
@@ -74,13 +92,24 @@ export const useWallet = () => {
         contractBalance,
         userAllowance,
         isLoading: false,
+        error: null,
       });
-    } catch (error) {
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error);
       console.error('Failed to connect wallet:', error);
-      setWalletState((prev) => ({ ...prev, isLoading: false }));
-      throw error;
+      setWalletState((prev) => ({
+        ...prev,
+        isLoading: false,
+        error: errorMessage,
+      }));
+      // Don't throw the error anymore - let the UI handle it gracefully
     }
   }, [initializeProvider]);
+
+  // Clear wallet error
+  const clearError = useCallback(() => {
+    setWalletState((prev) => ({ ...prev, error: null }));
+  }, []);
 
   // Disconnect wallet
   const disconnectWallet = useCallback(() => {
@@ -91,6 +120,7 @@ export const useWallet = () => {
       contractBalance: 0n,
       userAllowance: 0n,
       isLoading: false,
+      error: null,
     });
     setProvider(null);
     setContract(null);
@@ -166,5 +196,6 @@ export const useWallet = () => {
     connectWallet,
     disconnectWallet,
     refreshContractData,
+    clearError,
   };
 };

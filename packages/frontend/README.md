@@ -21,17 +21,20 @@ A React frontend for interacting with the SharedWallet smart contract, built wit
 ## Setup
 
 1. **Install dependencies**:
+
    ```bash
    yarn install
    ```
 
 2. **Configure contract address**:
    Update `src/contracts/config.ts` with your deployed contract address:
+
    ```typescript
-   export const CONTRACT_ADDRESS = "0xYourContractAddress";
+   export const CONTRACT_ADDRESS = '0xYourContractAddress';
    ```
 
 3. **Start development server**:
+
    ```bash
    yarn dev
    ```
@@ -123,14 +126,17 @@ The built files will be in the `dist/` directory.
 ### Common Issues
 
 1. **MetaMask not detected**:
+
    - Ensure MetaMask extension is installed and enabled
    - Refresh the page and try again
 
 2. **Wrong network**:
+
    - Switch to the correct network in MetaMask
    - For local development, add localhost:8545 network
 
 3. **Transaction failures**:
+
    - Check you have sufficient ETH for gas fees
    - Verify contract address is correct
    - Ensure you have proper allowances (for non-owners)
