@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { Badge, Button, Card, Input, StatCard } from '@/components/ui';
 import { useContractTransactions, useWallet } from '@/hooks';
 import { cn, formatAddress, formatEthValue, isValidAddress, isValidEthAmount } from '@/utils';
 
@@ -87,55 +88,110 @@ export const SharedWallet = () => {
     if (!txLoading && !txHash && !txError) return null;
 
     return (
-      <div
+      <Card
         className={cn(
-          'mt-6 p-4 rounded-lg border',
-          txLoading && 'bg-yellow-50 border-yellow-200 text-yellow-800',
-          txError && 'bg-red-50 border-red-200 text-red-800',
-          txHash && !txLoading && 'bg-green-50 border-green-200 text-green-800',
+          'animate-slide-down',
+          txLoading && 'border-accent-200 bg-gradient-to-r from-accent-50 to-amber-50',
+          txError && 'border-red-200 bg-gradient-to-r from-red-50 to-pink-50',
+          txHash &&
+            !txLoading &&
+            'border-secondary-200 bg-gradient-to-r from-secondary-50 to-emerald-50',
         )}
       >
         {txLoading && (
-          <div className="flex items-center">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-yellow-600 mr-2"></div>
-            Transaction pending...
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-accent-100 rounded-full flex items-center justify-center">
+              <svg className="animate-spin h-4 w-4 text-accent-600" fill="none" viewBox="0 0 24 24">
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </svg>
+            </div>
+            <div>
+              <h4 className="font-semibold text-accent-900">Transaction Pending</h4>
+              <p className="text-sm text-accent-700">
+                Please wait while your transaction is processed...
+              </p>
+            </div>
           </div>
         )}
         {txError && (
-          <div>
-            <div className="font-medium">Transaction failed: {txError}</div>
-            <button
-              className="mt-2 px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
-              onClick={clearTransactionState}
-            >
-              Clear
-            </button>
+          <div className="space-y-4">
+            <div className="flex items-start space-x-3">
+              <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="h-4 w-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h4 className="font-semibold text-red-900">Transaction Failed</h4>
+                <p className="text-sm text-red-700 mt-1">{txError}</p>
+              </div>
+            </div>
+            <Button variant="danger" size="sm" onClick={clearTransactionState}>
+              Clear Error
+            </Button>
           </div>
         )}
         {txHash && !txLoading && (
-          <div>
-            <div className="font-medium">Transaction successful!</div>
-            <div className="text-xs font-mono mt-1 break-all">Hash: {txHash}</div>
-            <button
-              className="mt-2 px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition-colors"
-              onClick={clearTransactionState}
-            >
+          <div className="space-y-4">
+            <div className="flex items-start space-x-3">
+              <div className="w-8 h-8 bg-secondary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="h-4 w-4 text-secondary-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h4 className="font-semibold text-secondary-900">Transaction Successful!</h4>
+                <p className="text-xs font-mono text-secondary-700 mt-1 break-all bg-white/50 p-2 rounded">
+                  {txHash}
+                </p>
+              </div>
+            </div>
+            <Button variant="secondary" size="sm" onClick={clearTransactionState}>
               Clear
-            </button>
+            </Button>
           </div>
         )}
-      </div>
+      </Card>
     );
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      <div className="max-w-7xl mx-auto p-6">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-4">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-blue-50/30 to-purple-50/30 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary-200/20 to-secondary-200/20 rounded-full blur-3xl animate-float" />
+        <div
+          className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-purple-200/20 to-accent-200/20 rounded-full blur-3xl animate-float"
+          style={{ animationDelay: '2s' }}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl mb-8 shadow-glow animate-glow">
             <svg
-              className="w-8 h-8 text-white"
+              className="w-10 h-10 text-white"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -148,56 +204,94 @@ export const SharedWallet = () => {
               />
             </svg>
           </div>
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-6xl md:text-7xl font-display font-bold gradient-text mb-6 animate-fade-in">
             Shared Wallet
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            A decentralized wallet with allowance-based access control powered by Ethereum smart
-            contracts
+          <p className="text-xl md:text-2xl text-neutral-600 max-w-3xl mx-auto leading-relaxed text-balance">
+            Experience the future of decentralized finance with our premium shared wallet solution,
+            featuring advanced allowance controls and seamless Ethereum integration.
           </p>
         </div>
 
         {/* Wallet Connection */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <Card variant="premium" className="mb-8 animate-slide-up">
           {!isConnected ? (
-            <div className="text-center">
-              <p className="text-gray-600 mb-4">
-                Connect your wallet to interact with the Shared Wallet contract
+            <div className="text-center py-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-secondary-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <svg
+                  className="w-8 h-8 text-primary-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-display font-semibold text-neutral-900 mb-3">
+                Connect Your Wallet
+              </h3>
+              <p className="text-neutral-600 mb-8 max-w-md mx-auto">
+                Connect your MetaMask wallet to start managing your shared funds with advanced
+                security features.
               </p>
-              <button
-                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+              <Button
+                variant="primary"
+                size="lg"
                 onClick={handleConnect}
-                disabled={walletLoading}
+                loading={walletLoading}
+                className="shadow-glow hover:shadow-glow-lg"
               >
                 {walletLoading ? 'Connecting...' : 'Connect MetaMask'}
-              </button>
+              </Button>
             </div>
           ) : (
-            <div className="text-center">
-              <p className="text-gray-700 mb-4">
-                Connected: <span className="font-mono">{formatAddress(account!)}</span>
+            <div className="text-center py-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-secondary-100 to-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <svg
+                  className="w-8 h-8 text-secondary-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-display font-semibold text-neutral-900 mb-2">
+                Wallet Connected
+              </h3>
+              <div className="flex items-center justify-center space-x-3 mb-4">
+                <code className="px-3 py-1 bg-neutral-100 rounded-lg text-sm font-mono text-neutral-700">
+                  {formatAddress(account!)}
+                </code>
                 {isOwner && (
-                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
-                    OWNER
-                  </span>
+                  <Badge variant="success" size="md">
+                    👑 Owner
+                  </Badge>
                 )}
-              </p>
-              <button
-                className="bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-                onClick={disconnectWallet}
-              >
+              </div>
+              <Button variant="ghost" size="sm" onClick={disconnectWallet}>
                 Disconnect
-              </button>
+              </Button>
             </div>
           )}
-        </div>
+        </Card>
 
         {/* Wallet Error Display */}
         {walletError && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <div className="flex items-start">
-              <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+          <Card className="mb-8 border-red-200 bg-gradient-to-r from-red-50 to-pink-50 animate-slide-down">
+            <div className="flex items-start space-x-4">
+              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="h-5 w-5 text-red-600" viewBox="0 0 20 20" fill="currentColor">
                   <path
                     fillRule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
@@ -205,243 +299,314 @@ export const SharedWallet = () => {
                   />
                 </svg>
               </div>
-              <div className="ml-3 flex-1">
-                <h3 className="text-sm font-medium text-red-800">Wallet Connection Error</h3>
-                <div className="mt-2 text-sm text-red-700">
-                  <p>{walletError}</p>
-                </div>
-                <div className="mt-4 flex space-x-3">
-                  <button
-                    type="button"
-                    className="bg-red-600 hover:bg-red-700 text-white text-sm font-medium py-2 px-3 rounded-md transition-colors"
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-red-900 mb-2">Connection Error</h3>
+                <p className="text-red-700 mb-4">{walletError}</p>
+                <div className="flex space-x-3">
+                  <Button
+                    variant="danger"
+                    size="sm"
                     onClick={handleConnect}
-                    disabled={walletLoading}
+                    loading={walletLoading}
                   >
                     {walletLoading ? 'Retrying...' : 'Try Again'}
-                  </button>
-                  <button
-                    type="button"
-                    className="bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium py-2 px-3 rounded-md transition-colors"
-                    onClick={clearError}
-                  >
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={clearError}>
                     Dismiss
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
         )}
 
         {isConnected && (
           <>
-            {/* Wallet Info */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
-                  Contract Balance
-                </h3>
-                <div className="text-2xl font-bold text-gray-900">
-                  {formatEthValue(contractBalance)} ETH
-                </div>
-              </div>
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
-                  Your Allowance
-                </h3>
-                <div className="text-2xl font-bold text-gray-900">
-                  {formatEthValue(userAllowance)} ETH
-                </div>
-              </div>
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
-                  Your Role
-                </h3>
-                <div className="text-2xl font-bold text-gray-900">{isOwner ? 'Owner' : 'User'}</div>
-              </div>
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
-                  Actions
-                </h3>
-                <button
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-3 rounded text-sm transition-colors"
-                  onClick={refreshContractData}
-                >
-                  Refresh Data
-                </button>
-              </div>
+            {/* Statistics Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+              <StatCard
+                variant="gradient"
+                color="blue"
+                title="Contract Balance"
+                value={`${formatEthValue(contractBalance)} ETH`}
+                subtitle="Total funds in wallet"
+                icon={
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" />
+                  </svg>
+                }
+                className="animate-slide-up"
+              />
+              <StatCard
+                variant="gradient"
+                color="green"
+                title="Your Allowance"
+                value={`${formatEthValue(userAllowance)} ETH`}
+                subtitle="Available to withdraw"
+                icon={
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fillRule="evenodd"
+                      d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                }
+                className="animate-slide-up"
+                style={{ animationDelay: '0.1s' }}
+              />
+              <StatCard
+                variant="gradient"
+                color="purple"
+                title="Your Role"
+                value={isOwner ? 'Owner' : 'User'}
+                subtitle={isOwner ? 'Full access' : 'Limited access'}
+                icon={
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fillRule="evenodd"
+                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                }
+                className="animate-slide-up"
+                style={{ animationDelay: '0.2s' }}
+              />
+              <StatCard
+                variant="gradient"
+                color="amber"
+                title="Quick Actions"
+                value=""
+                subtitle="Refresh data"
+                icon={
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fillRule="evenodd"
+                      d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                }
+                className="animate-slide-up cursor-pointer hover:scale-105 transition-transform"
+                style={{ animationDelay: '0.3s' }}
+                onClick={refreshContractData}
+              />
             </div>
 
-            {/* Main Panels */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {/* Action Panels */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-8">
               {/* Deposit Panel */}
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-2 flex items-center">
-                  💰 Deposit ETH
-                </h2>
-                <p className="text-gray-600 mb-4">Send ETH to the shared wallet contract</p>
-                <form onSubmit={handleDeposit} className="space-y-4">
-                  <div>
-                    <label
-                      htmlFor="deposit-amount"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+              <Card
+                variant="premium"
+                className="animate-slide-up"
+                style={{ animationDelay: '0.4s' }}
+              >
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-secondary-100 to-emerald-100 rounded-xl flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-secondary-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
                     >
-                      Amount (ETH)
-                    </label>
-                    <input
-                      id="deposit-amount"
-                      type="number"
-                      step="0.001"
-                      placeholder="0.0"
-                      value={depositAmount}
-                      onChange={(e) => setDepositAmount(e.target.value)}
-                      disabled={txLoading}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
-                    />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      />
+                    </svg>
                   </div>
-                  <button
+                  <div>
+                    <h3 className="text-xl font-display font-semibold text-neutral-900">
+                      Deposit ETH
+                    </h3>
+                    <p className="text-sm text-neutral-600">Add funds to the shared wallet</p>
+                  </div>
+                </div>
+                <form onSubmit={handleDeposit} className="space-y-6">
+                  <Input
+                    label="Amount (ETH)"
+                    type="number"
+                    step="0.001"
+                    placeholder="0.0"
+                    value={depositAmount}
+                    onChange={(e) => setDepositAmount(e.target.value)}
+                    disabled={txLoading}
+                    rightIcon={<span className="text-xs font-semibold text-neutral-500">ETH</span>}
+                  />
+                  <Button
                     type="submit"
-                    className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-md transition-colors"
+                    variant="secondary"
+                    size="lg"
+                    className="w-full"
                     disabled={txLoading || !isValidEthAmount(depositAmount)}
+                    loading={txLoading}
                   >
-                    {txLoading ? 'Processing...' : 'Deposit ETH'}
-                  </button>
+                    Deposit ETH
+                  </Button>
                 </form>
-              </div>
+              </Card>
 
               {/* Withdraw Panel */}
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-2 flex items-center">
-                  💸 Withdraw ETH
-                </h2>
-                <p className="text-gray-600 mb-4">
-                  {isOwner
-                    ? 'As owner, you can withdraw any amount'
-                    : `You can withdraw up to ${formatEthValue(userAllowance)} ETH`}
-                </p>
-                <form onSubmit={handleWithdraw} className="space-y-4">
-                  <div>
-                    <label
-                      htmlFor="withdraw-address"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+              <Card
+                variant="premium"
+                className="animate-slide-up"
+                style={{ animationDelay: '0.5s' }}
+              >
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-primary-100 to-blue-100 rounded-xl flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-primary-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
                     >
-                      Recipient Address
-                    </label>
-                    <input
-                      id="withdraw-address"
-                      type="text"
-                      placeholder="0x..."
-                      value={withdrawForm.address}
-                      onChange={(e) =>
-                        setWithdrawForm({ ...withdrawForm, address: e.target.value })
-                      }
-                      disabled={txLoading}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
-                    />
-                    {withdrawForm.address && !isValidAddress(withdrawForm.address) && (
-                      <div className="text-red-600 text-sm mt-1">Invalid address format</div>
-                    )}
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      />
+                    </svg>
                   </div>
                   <div>
-                    <label
-                      htmlFor="withdraw-amount"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
-                      Amount (ETH)
-                    </label>
-                    <input
-                      id="withdraw-amount"
-                      type="number"
-                      step="0.001"
-                      placeholder="0.0"
-                      value={withdrawForm.amount}
-                      onChange={(e) => setWithdrawForm({ ...withdrawForm, amount: e.target.value })}
-                      disabled={txLoading}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
-                    />
-                    {withdrawForm.amount && !isValidEthAmount(withdrawForm.amount) && (
-                      <div className="text-red-600 text-sm mt-1">Invalid amount</div>
-                    )}
+                    <h3 className="text-xl font-display font-semibold text-neutral-900">
+                      Withdraw ETH
+                    </h3>
+                    <p className="text-sm text-neutral-600">
+                      {isOwner ? 'Unlimited access' : `Up to ${formatEthValue(userAllowance)} ETH`}
+                    </p>
                   </div>
-                  <button
+                </div>
+                <form onSubmit={handleWithdraw} className="space-y-6">
+                  <Input
+                    label="Recipient Address"
+                    type="text"
+                    placeholder="0x..."
+                    value={withdrawForm.address}
+                    onChange={(e) => setWithdrawForm({ ...withdrawForm, address: e.target.value })}
+                    disabled={txLoading}
+                    error={
+                      withdrawForm.address && !isValidAddress(withdrawForm.address)
+                        ? 'Invalid address format'
+                        : undefined
+                    }
+                  />
+                  <Input
+                    label="Amount (ETH)"
+                    type="number"
+                    step="0.001"
+                    placeholder="0.0"
+                    value={withdrawForm.amount}
+                    onChange={(e) => setWithdrawForm({ ...withdrawForm, amount: e.target.value })}
+                    disabled={txLoading}
+                    error={
+                      withdrawForm.amount && !isValidEthAmount(withdrawForm.amount)
+                        ? 'Invalid amount'
+                        : undefined
+                    }
+                    rightIcon={<span className="text-xs font-semibold text-neutral-500">ETH</span>}
+                  />
+                  <Button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-md transition-colors"
+                    variant="primary"
+                    size="lg"
+                    className="w-full"
                     disabled={
                       txLoading ||
                       !isValidAddress(withdrawForm.address) ||
                       !isValidEthAmount(withdrawForm.amount)
                     }
+                    loading={txLoading}
                   >
-                    {txLoading ? 'Processing...' : 'Withdraw ETH'}
-                  </button>
+                    Withdraw ETH
+                  </Button>
                 </form>
-              </div>
+              </Card>
 
               {/* Owner Panel */}
               {isOwner && (
-                <div className="bg-white rounded-lg shadow-md p-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-2 flex items-center">
-                    👑 Owner Controls
-                  </h2>
-                  <p className="text-gray-600 mb-4">Set allowances for other users</p>
-                  <form onSubmit={handleSetAllowance} className="space-y-4">
-                    <div>
-                      <label
-                        htmlFor="allowance-address"
-                        className="block text-sm font-medium text-gray-700 mb-1"
+                <Card
+                  variant="premium"
+                  className="animate-slide-up"
+                  style={{ animationDelay: '0.6s' }}
+                >
+                  <div className="flex items-center space-x-3 mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-br from-accent-100 to-amber-100 rounded-xl flex items-center justify-center">
+                      <svg
+                        className="w-6 h-6 text-accent-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
                       >
-                        User Address
-                      </label>
-                      <input
-                        id="allowance-address"
-                        type="text"
-                        placeholder="0x..."
-                        value={allowanceForm.address}
-                        onChange={(e) =>
-                          setAllowanceForm({ ...allowanceForm, address: e.target.value })
-                        }
-                        disabled={txLoading}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
-                      />
-                      {allowanceForm.address && !isValidAddress(allowanceForm.address) && (
-                        <div className="text-red-600 text-sm mt-1">Invalid address format</div>
-                      )}
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                        />
+                      </svg>
                     </div>
                     <div>
-                      <label
-                        htmlFor="allowance-amount"
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
-                        Allowance (ETH)
-                      </label>
-                      <input
-                        id="allowance-amount"
-                        type="number"
-                        step="0.001"
-                        placeholder="0.0"
-                        value={allowanceForm.amount}
-                        onChange={(e) =>
-                          setAllowanceForm({ ...allowanceForm, amount: e.target.value })
-                        }
-                        disabled={txLoading}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
-                      />
-                      {allowanceForm.amount && !isValidEthAmount(allowanceForm.amount) && (
-                        <div className="text-red-600 text-sm mt-1">Invalid amount</div>
-                      )}
+                      <h3 className="text-xl font-display font-semibold text-neutral-900">
+                        Owner Controls
+                      </h3>
+                      <p className="text-sm text-neutral-600">Manage user allowances</p>
                     </div>
-                    <button
+                  </div>
+                  <form onSubmit={handleSetAllowance} className="space-y-6">
+                    <Input
+                      label="User Address"
+                      type="text"
+                      placeholder="0x..."
+                      value={allowanceForm.address}
+                      onChange={(e) =>
+                        setAllowanceForm({ ...allowanceForm, address: e.target.value })
+                      }
+                      disabled={txLoading}
+                      error={
+                        allowanceForm.address && !isValidAddress(allowanceForm.address)
+                          ? 'Invalid address format'
+                          : undefined
+                      }
+                    />
+                    <Input
+                      label="Allowance (ETH)"
+                      type="number"
+                      step="0.001"
+                      placeholder="0.0"
+                      value={allowanceForm.amount}
+                      onChange={(e) =>
+                        setAllowanceForm({ ...allowanceForm, amount: e.target.value })
+                      }
+                      disabled={txLoading}
+                      error={
+                        allowanceForm.amount && !isValidEthAmount(allowanceForm.amount)
+                          ? 'Invalid amount'
+                          : undefined
+                      }
+                      rightIcon={
+                        <span className="text-xs font-semibold text-neutral-500">ETH</span>
+                      }
+                    />
+                    <Button
                       type="submit"
-                      className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-md transition-colors"
+                      variant="accent"
+                      size="lg"
+                      className="w-full"
                       disabled={
                         txLoading ||
                         !isValidAddress(allowanceForm.address) ||
                         !isValidEthAmount(allowanceForm.amount)
                       }
+                      loading={txLoading}
                     >
-                      {txLoading ? 'Processing...' : 'Set Allowance'}
-                    </button>
+                      Set Allowance
+                    </Button>
                   </form>
-                </div>
+                </Card>
               )}
             </div>
 
